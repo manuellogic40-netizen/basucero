@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BasuCero - ¡Puntos Ganados!</title>
+    <title>BasuCero - Recicla, Gana, Transforma</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F4F9F4;
             color: #1E2A32;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background-image: url('assets/logo.png');
             background-repeat: repeat;
             background-size: 120px;
@@ -36,185 +29,438 @@
             background-color: rgba(244, 249, 244, 0.88);
             z-index: -1;
         }
-        .success-container {
-            text-align: center;
-            background: white;
-            padding: 50px 40px;
-            border-radius: 60px;
-            max-width: 550px;
-            margin: 20px;
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
-            animation: fadeInUp 0.5s ease;
+        :root {
+            --verde-profundo: #1B5E2F;
+            --verde-primario: #2B7A4B;
+            --verde-claro: #4CAF50;
+            --menta-suave: #C8E6C9;
+            --gris-claro: #F4F9F4;
+            --blanco: #ffffff;
+            --sombra: 0 10px 25px -5px rgba(0,0,0,0.05);
         }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* Header */
+        .header {
+            background: var(--blanco);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .check-icon {
-            font-size: 5rem;
-            color: #2B7A4B;
-            background-color: #C8E6C9;
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
+        .nav-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 48px; width: auto; border-radius: 12px; }
+        .logo-text { font-size: 1.6rem; font-weight: 800; color: var(--verde-profundo); }
+        .nav-links { display: flex; gap: 24px; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; font-weight: 600; color: #1E2A32; }
+        .nav-links a:hover { color: var(--verde-primario); }
+        .user-info { background: var(--menta-suave); padding: 8px 16px; border-radius: 40px; display: flex; align-items: center; gap: 12px; }
+        .user-info span { font-weight: 700; color: var(--verde-profundo); }
+        .btn-logout { background: none; border: none; color: var(--verde-primario); cursor: pointer; font-size: 1rem; }
+        
+        /* Secciones */
+        .hero { padding: 60px 0; background: linear-gradient(135deg, var(--menta-suave), var(--gris-claro)); }
+        .hero-grid { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 48px; }
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .highlight { color: var(--verde-primario); }
+        .btn-primary, .btn-secondary {
+            padding: 12px 28px; border-radius: 40px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; border: none;
         }
-        h1 {
-            font-size: 2.2rem;
-            color: #1B5E2F;
-            margin-bottom: 16px;
-        }
-        .puntos-destacados {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: #FFB74D;
-            background: #1B5E2F;
-            display: inline-block;
-            padding: 8px 25px;
-            border-radius: 60px;
-            margin: 20px 0;
-            letter-spacing: 2px;
-        }
-        .mensaje {
-            font-size: 1.2rem;
-            margin: 20px 0;
-            color: #2d3e2d;
-        }
-        .pasos-flujo {
-            background: #C8E6C9;
-            border-radius: 30px;
-            padding: 20px;
-            margin: 25px 0;
-            text-align: left;
-        }
-        .pasos-flujo h3 {
-            color: #1B5E2F;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .pasos-flujo ul {
-            list-style: none;
-            padding: 0;
-        }
-        .pasos-flujo li {
-            margin: 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
-        }
-        .pasos-flujo i {
-            color: #2B7A4B;
-            width: 24px;
-            text-align: center;
-        }
-        .btn-regresar {
-            background-color: #2B7A4B;
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s;
-            text-decoration: none;
-        }
-        .btn-regresar:hover {
-            background-color: #1B5E2F;
-            transform: scale(0.97);
-        }
-        .footer-mini {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            color: #6c7a6c;
-        }
-        .nota-ecologica {
-            background: #FFF8E7;
-            border-radius: 20px;
-            padding: 12px;
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #8B6B2D;
-        }
+        .btn-primary { background-color: var(--verde-primario); color: white; }
+        .btn-primary:hover { background-color: var(--verde-profundo); }
+        .btn-secondary { background: transparent; border: 2px solid var(--verde-primario); color: var(--verde-primario); }
+        
+        .section { padding: 60px 0; background: var(--blanco); }
+        .section-alt { background: var(--menta-suave); }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 40px; font-weight: 700; }
+        
+        /* Tarjetas */
+        .grid-cards { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+        .card { background: var(--gris-claro); border-radius: 28px; padding: 24px; flex: 1; min-width: 250px; box-shadow: var(--sombra); }
+        
+        /* Formularios */
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; border-radius: 28px; border: 1px solid #ccc; font-family: inherit; }
+        
+        /* Simulador / Registro de entrega */
+        .registro-card { max-width: 600px; margin: 0 auto; background: var(--blanco); border-radius: 40px; padding: 32px; box-shadow: var(--sombra); }
+        .puntos-acumulados { background: var(--verde-profundo); color: white; padding: 16px; border-radius: 28px; text-align: center; margin-bottom: 24px; }
+        .puntos-acumulados span { font-size: 2rem; font-weight: 800; }
+        
+        /* Catálogo de recompensas */
+        .reward-card { background: var(--blanco); border-radius: 20px; padding: 20px; text-align: center; cursor: pointer; transition: transform 0.2s; }
+        .reward-card:hover { transform: translateY(-5px); }
+        .reward-card i { font-size: 2rem; color: var(--verde-primario); }
+        .reward-precio { font-weight: 800; color: var(--verde-profundo); margin: 10px 0; }
+        .btn-canjear { background: var(--verde-claro); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+        
+        /* Estadísticas */
+        .stats-grid { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+        .stat-card { background: var(--blanco); border-radius: 28px; padding: 24px; text-align: center; min-width: 160px; }
+        .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--verde-primario); }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; border-radius: 40px; padding: 32px; max-width: 400px; text-align: center; }
+        
+        .footer { background-color: #1a2e1f; color: #d4ecd4; padding: 48px 0 24px; }
+        .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; }
+        @media (max-width: 768px) { .nav-links { display: none; } .hero-text h1 { font-size: 1.8rem; } }
     </style>
 </head>
 <body>
-    <div class="success-container">
-        <div class="check-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <h1>🎉 ¡Felicidades! 🎉</h1>
-        <p class="mensaje">Has ganado</p>
-        <div class="puntos-destacados" id="puntosMostrar">0 puntos</div>
-        <p class="mensaje" id="mensajeDinamico">en <strong>BasuCero</strong> por tu acción ecológica.<br>¡Sigue así, transformando tu comunidad!</p>
 
-        <!-- Recuadro con el flujo de funcionamiento -->
-        <div class="pasos-flujo">
-            <h3><i class="fas fa-recycle"></i> ¿Cómo funciona BasuCero?</h3>
-            <ul>
-                <li><i class="fas fa-user-plus"></i> 1. El usuario se registra en la plataforma</li>
-                <li><i class="fas fa-truck"></i> 2. Lleva sus residuos a un centro de acopio aliado</li>
-                <li><i class="fas fa-weight-hanging"></i> 3. El centro pesa y clasifica el material</li>
-                <li><i class="fas fa-calculator"></i> 4. El sistema calcula puntos y los acredita</li>
-                <li><i class="fas fa-gift"></i> 5. El usuario canjea puntos por recompensas</li>
-                <li><i class="fas fa-chart-line"></i> 6. La app muestra estadísticas de impacto por comunidad</li>
-            </ul>
+<header class="header">
+    <div class="container nav-container">
+        <div class="logo-area">
+            <img src="assets/logo.png" alt="BasuCero" class="logo-img">
+            <span class="logo-text">BasuCero</span>
         </div>
-
-        <div class="nota-ecologica">
-            <i class="fas fa-leaf"></i> Cada punto que ganas contribuye a reducir residuos y cuidar el planeta.
-        </div>
-
-        <a href="index.html" class="btn-regresar"><i class="fas fa-arrow-left"></i> Volver a BasuCero</a>
-        <div class="footer-mini">
-            <i class="fas fa-star-of-life"></i> Escanea este código QR y comparte tus logros ecológicos.
+        <nav class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#registro">Registro</a>
+            <a href="#entrega">Registrar Entrega</a>
+            <a href="#recompensas">Canjear</a>
+            <a href="#estadisticas">Estadísticas</a>
+        </nav>
+        <div class="user-info" id="userInfo">
+            <i class="fas fa-user-circle"></i>
+            <span id="userNameDisplay">Invitado</span>
+            <button class="btn-logout" id="logoutBtn" style="display:none;"><i class="fas fa-sign-out-alt"></i></button>
         </div>
     </div>
+</header>
 
-    <script>
-        // Leer el parámetro 'puntos' de la URL (ej: ?puntos=100)
-        const urlParams = new URLSearchParams(window.location.search);
-        let puntos = urlParams.get('puntos');
-        
-        const puntosMostrar = document.getElementById('puntosMostrar');
-        const mensajeDinamico = document.getElementById('mensajeDinamico');
-        
-        // Validar puntos
-        if (puntos !== null && !isNaN(puntos) && Number(puntos) > 0) {
-            puntos = Number(puntos);
-            puntosMostrar.textContent = `${puntos} puntos`;
-            mensajeDinamico.innerHTML = `en <strong>BasuCero</strong> por tu acción ecológica.<br>¡Sigue así, transformando tu comunidad!`;
+<section id="inicio" class="hero">
+    <div class="container hero-grid">
+        <div class="hero-text">
+            <h1>Recicla, acumula puntos y <span class="highlight">transforma tu comunidad</span></h1>
+            <p>BasuCero recompensa tus acciones ecológicas. Regístrate, lleva tus residuos a centros de acopio y gana puntos canjeables.</p>
+            <button class="btn-primary" onclick="document.getElementById('registro').scrollIntoView({behavior:'smooth'})"><i class="fas fa-user-plus"></i> Registrarme</button>
+        </div>
+        <div class="hero-stats" style="display: flex; gap: 20px;">
+            <div class="stat-card"><i class="fas fa-trash-alt"></i><h3 id="totalKgEstadistica">0</h3><p>kg reciclados</p></div>
+            <div class="stat-card"><i class="fas fa-users"></i><h3 id="totalUsuariosEstadistica">0</h3><p>usuarios</p></div>
+            <div class="stat-card"><i class="fas fa-tree"></i><h3 id="arbolesEstadistica">0</h3><p>árboles salvados</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- 1. REGISTRO DE USUARIO -->
+<section id="registro" class="section">
+    <div class="container">
+        <h2 class="section-title">1. <span class="highlight">Regístrate</span> en BasuCero</h2>
+        <div class="registro-card" style="max-width: 450px;">
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Nombre de usuario</label>
+                <input type="text" id="registroNombre" placeholder="Ej: JuanPerez">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Correo electrónico</label>
+                <input type="email" id="registroEmail" placeholder="correo@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-city"></i> Comunidad</label>
+                <select id="registroComunidad">
+                    <option value="Centro">Centro</option>
+                    <option value="Norte">Norte</option>
+                    <option value="Sur">Sur</option>
+                    <option value="Oriente">Oriente</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="registrarUsuario()"><i class="fas fa-check"></i> Registrarme</button>
+            <p id="registroMsg" style="margin-top: 16px; color: green;"></p>
+        </div>
+    </div>
+</section>
+
+<!-- 2+3+4. REGISTRO DE ENTREGA (centro de acopio + cálculo de puntos) -->
+<section id="entrega" class="section-alt">
+    <div class="container">
+        <h2 class="section-title">2. <span class="highlight">Registra tu reciclaje</span> en un centro de acopio</h2>
+        <div class="registro-card">
+            <div class="puntos-acumulados">
+                <i class="fas fa-coins"></i> Mis puntos acumulados: <span id="puntosTotalesSpan">0</span>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> Centro de acopio</label>
+                <select id="centroAcopio">
+                    <option value="EcoCentro Centro">♻️ EcoCentro Centro (Av. Principal)</option>
+                    <option value="EcoCentro Norte">♻️ EcoCentro Norte (Calle 5)</option>
+                    <option value="EcoCentro Sur">♻️ EcoCentro Sur (Parque Industrial)</option>
+                    <option value="Punto Verde Oriente">🌱 Punto Verde Oriente (Mercado)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-recycle"></i> Tipo de residuo</label>
+                <select id="tipoResiduo">
+                    <option value="plastic">Plástico (PET, PEAD) - 50 pts/kg</option>
+                    <option value="glass">Vidrio - 35 pts/kg</option>
+                    <option value="metal">Metal (aluminio, acero) - 70 pts/kg</option>
+                    <option value="cardboard">Cartón y papel - 25 pts/kg</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-weight-hanging"></i> Peso (kg)</label>
+                <input type="number" id="pesoKg" value="1" step="0.1" min="0.1">
+            </div>
+            <button class="btn-primary" onclick="registrarEntrega()"><i class="fas fa-save"></i> Registrar entrega y ganar puntos</button>
+            <p id="entregaMsg" style="margin-top: 16px;"></p>
+        </div>
+    </div>
+</section>
+
+<!-- 5. CANJE DE RECOMPENSAS -->
+<section id="recompensas" class="section">
+    <div class="container">
+        <h2 class="section-title">3. <span class="highlight">Canjea tus puntos</span> por recompensas</h2>
+        <div class="grid-cards" id="recompensasGrid">
+            <!-- Recompensas dinámicas con JS -->
+        </div>
+        <p id="canjeMsg" style="text-align: center; margin-top: 20px;"></p>
+    </div>
+</section>
+
+<!-- 6. ESTADÍSTICAS COMUNITARIAS -->
+<section id="estadisticas" class="section-alt">
+    <div class="container">
+        <h2 class="section-title">4. <span class="highlight">Estadísticas</span> de impacto ambiental por comunidad</h2>
+        <div class="stats-grid" id="estadisticasComunitarias">
+            <!-- Estadísticas por comunidad se cargan con JS -->
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <p><i class="fas fa-chart-line"></i> <strong>Impacto total:</strong> <span id="impactoTotal">0</span> kg de residuos reciclados</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <div class="footer-logo">
+            <img src="assets/logo.png" alt="BasuCero" style="height:48px;">
+            <span>BasuCero</span>
+            <p>Reciclar nunca fue tan gratificante.</p>
+        </div>
+        <div class="footer-links"><h4>Enlaces</h4><a href="#inicio">Inicio</a><a href="#registro">Registro</a><a href="#entrega">Registrar</a><a href="#recompensas">Recompensas</a></div>
+    </div>
+    <div class="footer-bottom" style="text-align:center; padding-top:24px;"><p>&copy; 2026 BasuCero - Transformando hábitos, cuidando el planeta.</p></div>
+</footer>
+
+<!-- Modal de éxito -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-check-circle" style="font-size: 3rem; color: #2B7A4B;"></i>
+        <h2>¡Puntos ganados!</h2>
+        <p id="modalMsg">Has ganado <strong>0 puntos</strong></p>
+        <button class="btn-primary" onclick="cerrarModal()">Cerrar</button>
+    </div>
+</div>
+
+<script>
+    // ========== INICIALIZACIÓN ==========
+    let usuarios = JSON.parse(localStorage.getItem('basucero_usuarios')) || [];
+    let registros = JSON.parse(localStorage.getItem('basucero_registros')) || [];
+    let usuarioActual = JSON.parse(localStorage.getItem('basucero_usuarioActual')) || null;
+    
+    // Factores de puntos por kg
+    const factores = { plastic: 50, glass: 35, metal: 70, cardboard: 25 };
+    
+    // Recompensas disponibles
+    const recompensas = [
+        { id: 1, nombre: "🧴 Botella reutilizable", puntos: 150, icono: "fas fa-tint" },
+        { id: 2, nombre: "🛍️ Bolsa ecológica", puntos: 80, icono: "fas fa-shopping-bag" },
+        { id: 3, nombre: "🌱 Kit de semillas", puntos: 100, icono: "fas fa-seedling" },
+        { id: 4, nombre: "☕ Taza térmica", puntos: 200, icono: "fas fa-mug-hot" },
+        { id: 5, nombre: "🎟️ Descuento 10% en tienda eco", puntos: 50, icono: "fas fa-tag" },
+        { id: 6, nombre: "♻️ Compostador casero", puntos: 300, icono: "fas fa-leaf" }
+    ];
+    
+    function guardarDatos() {
+        localStorage.setItem('basucero_usuarios', JSON.stringify(usuarios));
+        localStorage.setItem('basucero_registros', JSON.stringify(registros));
+        localStorage.setItem('basucero_usuarioActual', JSON.stringify(usuarioActual));
+    }
+    
+    function actualizarInterfaz() {
+        if (usuarioActual) {
+            document.getElementById('userNameDisplay').innerHTML = `<i class="fas fa-user-check"></i> ${usuarioActual.nombre}`;
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+            document.getElementById('puntosTotalesSpan').innerText = usuarioActual.puntos || 0;
         } else {
-            // Si no hay puntos válidos, mostrar mensaje amigable
-            puntosMostrar.textContent = `✨ Puntos especiales ✨`;
-            mensajeDinamico.innerHTML = `Gracias por tu interés en <strong>BasuCero</strong>.<br>Escanea un código QR válido para ganar puntos reales.`;
-            document.querySelector('.check-icon i').className = "fas fa-recycle";
-            document.querySelector('.check-icon').style.backgroundColor = "#FFE0B5";
+            document.getElementById('userNameDisplay').innerHTML = 'Invitado';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('puntosTotalesSpan').innerText = '0';
+        }
+        actualizarEstadisticas();
+        cargarRecompensas();
+    }
+    
+    function getPuntosUsuario() {
+        return usuarioActual ? (usuarioActual.puntos || 0) : 0;
+    }
+    
+    function sumarPuntos(puntosGanados, kg, tipo, centro) {
+        if (!usuarioActual) {
+            alert("Primero regístrate para ganar puntos");
+            return false;
+        }
+        usuarioActual.puntos = (usuarioActual.puntos || 0) + puntosGanados;
+        // Guardar registro de entrega
+        registros.push({
+            usuarioId: usuarioActual.email,
+            usuarioNombre: usuarioActual.nombre,
+            comunidad: usuarioActual.comunidad,
+            centro: centro,
+            tipo: tipo,
+            kg: kg,
+            puntos: puntosGanados,
+            fecha: new Date().toISOString()
+        });
+        guardarDatos();
+        actualizarInterfaz();
+        return true;
+    }
+    
+    function registrarUsuario() {
+        let nombre = document.getElementById('registroNombre').value.trim();
+        let email = document.getElementById('registroEmail').value.trim();
+        let comunidad = document.getElementById('registroComunidad').value;
+        
+        if (!nombre || !email) {
+            document.getElementById('registroMsg').innerHTML = '<span style="color:red;">⚠️ Completa todos los campos</span>';
+            return;
         }
         
-        // Efecto adicional: si los puntos son muchos, mostrar un mensaje extra motivador
-        if (puntos > 200) {
-            const notaExtra = document.createElement('div');
-            notaExtra.className = 'nota-ecologica';
-            notaExtra.style.marginTop = '10px';
-            notaExtra.style.backgroundColor = '#C8E6C9';
-            notaExtra.innerHTML = '<i class="fas fa-trophy"></i> ¡Increíble! Has hecho una gran contribución al medio ambiente.';
-            document.querySelector('.success-container').appendChild(notaExtra);
+        let existe = usuarios.find(u => u.email === email);
+        if (existe) {
+            usuarioActual = existe;
+            guardarDatos();
+            document.getElementById('registroMsg').innerHTML = '<span style="color:green;">✅ Bienvenido de nuevo, ' + nombre + '</span>';
+        } else {
+            let nuevoUsuario = { nombre, email, comunidad, puntos: 0, fechaRegistro: new Date().toISOString() };
+            usuarios.push(nuevoUsuario);
+            usuarioActual = nuevoUsuario;
+            guardarDatos();
+            document.getElementById('registroMsg').innerHTML = '<span style="color:green;">✅ ¡Registro exitoso! ' + nombre + ', ahora puedes ganar puntos.</span>';
         }
-    </script>
+        document.getElementById('registroNombre').value = '';
+        document.getElementById('registroEmail').value = '';
+        actualizarInterfaz();
+    }
+    
+    function registrarEntrega() {
+        if (!usuarioActual) {
+            alert("⚠️ Debes registrarte primero para registrar una entrega");
+            return;
+        }
+        let centro = document.getElementById('centroAcopio').value;
+        let tipo = document.getElementById('tipoResiduo').value;
+        let peso = parseFloat(document.getElementById('pesoKg').value);
+        
+        if (isNaN(peso) || peso <= 0) {
+            document.getElementById('entregaMsg').innerHTML = '<span style="color:red;">⚠️ Ingresa un peso válido</span>';
+            return;
+        }
+        let puntos = Math.floor(peso * factores[tipo]);
+        sumarPuntos(puntos, peso, tipo, centro);
+        document.getElementById('entregaMsg').innerHTML = `<span style="color:green;">✅ ¡Ganaste ${puntos} puntos por ${peso} kg!</span>`;
+        
+        // Mostrar modal
+        document.getElementById('modalMsg').innerHTML = `Has ganado <strong>${puntos} puntos</strong> por reciclar.`;
+        document.getElementById('successModal').style.display = 'flex';
+    }
+    
+    function actualizarEstadisticas() {
+        // Estadísticas por comunidad
+        let comunidades = {};
+        let totalKg = 0;
+        registros.forEach(r => {
+            let comunidad = r.comunidad;
+            if (!comunidades[comunidad]) comunidades[comunidad] = { kg: 0, puntos: 0, entregas: 0 };
+            comunidades[comunidad].kg += r.kg;
+            comunidades[comunidad].puntos += r.puntos;
+            comunidades[comunidad].entregas += 1;
+            totalKg += r.kg;
+        });
+        
+        let container = document.getElementById('estadisticasComunitarias');
+        container.innerHTML = '';
+        for (let [com, data] of Object.entries(comunidades)) {
+            container.innerHTML += `
+                <div class="stat-card">
+                    <i class="fas fa-community"></i>
+                    <h3>${com}</h3>
+                    <p class="stat-number">${data.kg.toFixed(1)} kg</p>
+                    <p>${data.entregas} entregas</p>
+                    <p>🌳 ${Math.floor(data.kg * 0.05)} árboles salvados</p>
+                </div>
+            `;
+        }
+        if (Object.keys(comunidades).length === 0) {
+            container.innerHTML = '<p style="text-align:center;">Aún no hay registros de reciclaje. ¡Sé el primero!</p>';
+        }
+        
+        document.getElementById('totalKgEstadistica').innerText = totalKg.toFixed(0);
+        document.getElementById('totalUsuariosEstadistica').innerText = usuarios.length;
+        document.getElementById('arbolesEstadistica').innerText = Math.floor(totalKg * 0.05);
+        document.getElementById('impactoTotal').innerText = totalKg.toFixed(1);
+    }
+    
+    function cargarRecompensas() {
+        let container = document.getElementById('recompensasGrid');
+        container.innerHTML = '';
+        recompensas.forEach(r => {
+            container.innerHTML += `
+                <div class="reward-card">
+                    <i class="${r.icono}"></i>
+                    <h3>${r.nombre}</h3>
+                    <p class="reward-precio">${r.puntos} puntos</p>
+                    <button class="btn-canjear" onclick="canjearRecompensa(${r.id}, '${r.nombre}', ${r.puntos})">Canjear</button>
+                </div>
+            `;
+        });
+    }
+    
+    function canjearRecompensa(id, nombre, precio) {
+        if (!usuarioActual) {
+            alert("Regístrate para canjear puntos");
+            return;
+        }
+        let puntosActuales = usuarioActual.puntos || 0;
+        if (puntosActuales >= precio) {
+            usuarioActual.puntos -= precio;
+            guardarDatos();
+            actualizarInterfaz();
+            document.getElementById('canjeMsg').innerHTML = `<span style="color:green;">✅ ¡Canjeaste ${nombre}! Te quedan ${usuarioActual.puntos} puntos.</span>`;
+            setTimeout(() => { document.getElementById('canjeMsg').innerHTML = ''; }, 3000);
+        } else {
+            document.getElementById('canjeMsg').innerHTML = `<span style="color:red;">❌ No tienes suficientes puntos. Necesitas ${precio} puntos.</span>`;
+            setTimeout(() => { document.getElementById('canjeMsg').innerHTML = ''; }, 3000);
+        }
+    }
+    
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        usuarioActual = null;
+        localStorage.removeItem('basucero_usuarioActual');
+        actualizarInterfaz();
+        alert("Has cerrado sesión");
+    });
+    
+    function cerrarModal() {
+        document.getElementById('successModal').style.display = 'none';
+    }
+    
+    window.onclick = function(event) {
+        let modal = document.getElementById('successModal');
+        if (event.target === modal) modal.style.display = 'none';
+    };
+    
+    actualizarInterfaz();
+</script>
 </body>
 </html>
